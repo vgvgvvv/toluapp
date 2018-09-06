@@ -95,8 +95,10 @@ int main (int argc, char* argv[])
  luaopen_debug(L);
  #endif
 
- lua_pushstring(L,TOLUA_VERSION); lua_setglobal(L,"TOLUA_VERSION");
- lua_pushstring(L,LUA_VERSION); lua_setglobal(L,"TOLUA_LUA_VERSION");
+ lua_pushstring(L,TOLUA_VERSION); 
+ lua_setglobal(L,"TOLUA_VERSION");
+ lua_pushstring(L,LUA_VERSION); 
+ lua_setglobal(L,"TOLUA_LUA_VERSION");
 
  if (argc==1)
  {
@@ -159,10 +161,15 @@ int main (int argc, char* argv[])
   p = strrchr(path,'/');
   if (p==NULL) p = strrchr(path,'\\');
   p = (p==NULL) ? path : p+1;
-  sprintf(p,"%s","../src/bin/lua/");
+  sprintf(p,"%s","lua/");
   lua_pushstring(L,path); lua_setglobal(L,"path");
-		strcat(path,"all.lua");
-  lua_dofile(L,path);
+  strcat(path,"all.lua");
+  luaL_dofile(L,path);
+  if(lua_gettop(L) != 0)
+  {
+      const char* info = luaL_checkstring(L, -1);
+      printf(info);
+  }
  }
 #endif
  return 0;
