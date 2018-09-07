@@ -1,0 +1,1 @@
+python test.py all.lua allbytes.txt
